@@ -1,0 +1,54 @@
+Żeby odpalić aplikację musisz mieć zainstalowane na komputerze Node JS. 
+Najłatwiej chyba otworzyć cały ten folder w Visual Studio Code, przynajmniej ja to robiłem w VSCode i wszystko działało.
+I teraz trzeba włączyć serwer. 
+1. W terminalu trzeba wejść w folder server(komenda to 'cd server')
+2. wystartować serwer (komenda to 'npm run devStart')
+Żeby klient mogł łączyć się z serwerem musi też być odpalony na jakimś hoście. 
+Chodzi o to że jakbyś po prostu otworzyła plik html to nie będzie się łączyć z serwerem tylko wyświetli zawartość tego html.
+Tak jakby po prostu wyświetlić plik tekstowy, a nie w pełni fukcjonalny kod. 
+Najłatwiej to zrobić w Visual Studio Code. Zainstaluj sobie rozszerzenie Live Server(W VSCode z lewej strony ikonka z takimi klockami)
+Jak wejdziesz w plik index.html to jak prawym klikniesz na kod to powinna być opcja Open with Live Server.
+Wtedy apka powinna się odpalić w przeglądarce na locahoscie.
+
+Generalna idea aplikacji polega na tym, że jest klient(index.html + script.js) który wysyła zapytanie(request) na serwer
+serwer(server.js) pobiera dane z internetu, odsyła je klientowi i wyświetlają się na stronie.
+Przy wszystkich ważnych liniach zostawiłem jakiś komentarz co tam się dzieje.
+
+Skomentowałem to w kodzie ale napiszę ci jeszcze raz tutaj jak działa XMLHttprequest bo z tego może ciebie pytać.
+Na początku inicjuje się obiekt XMLHttpRequest()
+W kontekscie tej aplikacji interesują nas 6 pól tego obiektu:
+	setRequestHeader - to jest funkcja która ustala nagłowki requesta
+	onreadystateChange -  to jest funkcja która aktywuje się kiedy przychodzi odpowiedź i możemy ją sami napisać(czyli co ma zrobić program kiedy przyjdzie odpowiedź) 
+	readyState - liczba od 0 do 4  
+		0: request not initialized
+		1: server connection established
+		2: request received
+		3: processing request
+		4: request finished and response is ready
+	status - liczba, która mówi jaki jest status(gdy jest 200 to znaczy że wszystko jest OK, 400 błąd ze strony klienta, 500 błąd ze strony serwera)
+	open - funkcja która otwiera połączenie z serwerem, argumenty:
+		* metoda(może być GET albo POST, GET używasz kiedy przesyłasz jakieś dane, GET jeżeli tylko chcesz dostać odpowiedź i nic nie przesyłasz w requescie)
+		* link gdzie ma iść request
+		* asynchroniczność, true albo false -> jeżeli jest true to można użyć funkcji send i obiekt będzie czekał na odpowiedź 
+	send - funkcja która wysyła zapytanie
+
+let xhr = new XMLHttpRequest();
+xhr.open('POST', 'http://localhost:3001/search', true);
+    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+    xhr.onreadystatechange = () => {
+    if(xhr.readyState == 4 && xhr.status == 200){
+        let serverRes = JSON.parse(xhr.response)
+	console.log(serverRes)
+    }
+}
+let body = JSON.stringify({searchValue: inputValue}) 
+xhr.send(body)
+
+Z wymagań jeżeli chodzi o SVG to zaznaczyłem w pliku HTML gdzie one się znajdują.
+Jak będziesz wysyłać projekt prowadzącemu to pamiętaj żęby usunąć folder .git bo wtedy projekt będzie powiązany z moim kontem i gość może to zobaczyć XD
+On jest ukryty więc musisz więc musisz w folderze zaznaczyć Widok -> Ukryte elementy
+No i komentarze też lepiej chyba usunąć.
+Jak masz jakieś pytania to pisz do mnie na priv
+
+ 
+
