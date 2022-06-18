@@ -11,7 +11,7 @@ const searchRequest = (inputValue) =>{
     //XMLHttpRequest opisałem w wyjasnienia.txt
     let xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://localhost:3001/search', true);
-    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');// nagłówek request mowi o tym ,że Content wysyłany w body będzie typu JSON i kodowanie znaków to utf8
     xhr.onreadystatechange = () => {
     if(xhr.readyState == 4 && xhr.status == 200){
         let serverRes = JSON.parse(xhr.response) // konwertujemy odpowiedź serwera JSON na obiekt JavaScript
